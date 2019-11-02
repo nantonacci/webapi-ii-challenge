@@ -7,7 +7,7 @@ const server = express();
 server.use(express.json());
 
 //uses url to determine postsRouter should be used for routing
-server.use('url', postsRouter);
+server.use('/api/posts', postsRouter);
 
 //absolute path
 server.get('/', (req, res) => {
