@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Posts = require('./data/db.js');
 
-// POST - ready to test
+// POST - WORKS
 // /api/posts
 // Creates a post using the information sent inside the request body.
 router.post('/', (req, res) => {
@@ -27,12 +27,13 @@ router.post('/', (req, res) => {
   }
 });
 
-// POST - ready to test
+// POST - WORKS
 // /api/posts/:id/comments
 // Creates a comment for the post with the specified id using information sent inside of the request body.
 router.post('/:id/comments', (req, res) => {
   const id = req.params.id;
-  const text = req.body;
+  const text = req.body.text;
+  const comment = req.body;
 
   if (!text) {
     res.status(400).json({
@@ -60,7 +61,7 @@ router.post('/:id/comments', (req, res) => {
   }
 });
 
-// GET - ready to test
+// GET - WORKS
 // /api/posts
 // Returns an array of all the post objects contained in the database.
 router.get('/', (req, res) => {
@@ -76,7 +77,7 @@ router.get('/', (req, res) => {
     });
 });
 
-// GET - ready to test
+// GET - WORKS
 // /api/posts/:id
 // Returns the post object with the specified id.
 router.get('/:id', (req, res) => {
@@ -101,11 +102,12 @@ router.get('/:id', (req, res) => {
     });
 });
 
-// GET - ready to test
+// GET - WORKS
 // /api/posts/:id/comments
 // Returns an array of all the comment objects associated with the post with the specified id.
 router.get('/:id/comments', (req, res) => {
   const id = req.params.id;
+
   Posts.findById(id)
     .then(comments => {
       if (id) {
@@ -125,7 +127,7 @@ router.get('/:id/comments', (req, res) => {
     });
 });
 
-// DELETE - ready to test
+// DELETE - WORKS
 // /api/posts/:id
 // Removes the post with the specified id and returns the deleted post object. You may need to make additional calls to the database in order to satisfy this requirement.
 router.delete('/:id', (req, res) => {
@@ -148,7 +150,7 @@ router.delete('/:id', (req, res) => {
     });
 });
 
-// PUT - ready to test
+// PUT - WORKS
 // /api/posts/:id
 // Updates the post with the specified id using data from the request body. Returns the modified document, NOT the original.
 router.put('/:id', (req, res) => {
@@ -156,7 +158,7 @@ router.put('/:id', (req, res) => {
   const { title, contents } = req.body;
   const post = req.body;
 
-  if (!title || !body) {
+  if (!title || !contents) {
     res.status(400).json({
       success: false,
       errorMessage: 'Please provide title and contents for the post.'
